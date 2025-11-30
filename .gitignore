@@ -1,5 +1,1 @@
-bin
-obj
-appsettings.*
-musicLibrary.db*
 .DS_Store
