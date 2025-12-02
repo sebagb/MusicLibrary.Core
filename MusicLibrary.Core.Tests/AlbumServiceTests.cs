@@ -1,6 +1,6 @@
 namespace MusicLibrary.Core.Tests;
 
-public class UnitTest1
+public class AlbumServiceTests
 {
     [Fact]
     public void Test1()
