@@ -39,66 +39,48 @@ public class AlbumRepository
     {
         var albumCollection = context.Albums;
 
+        return albumCollection;
+    }
+
+    public IEnumerable<string> GetAlbumCountries(int albumId)
+    {
         var albumCountries = context.AlbumCountries
             .Include(a => a.Country);
+
+        var countries = albumCountries.Where(a =>
+         a.AlbumId == albumId)
+         .Select(a => a.Country.Name);
+
+        return countries;
+    }
+
+    public IEnumerable<string> GetAlbumGenres(int albumId)
+    {
         var albumGenres = context.AlbumGenres
             .Include(a => a.Genre);
+
+        var genres = albumGenres.Where(a =>
+            a.AlbumId == albumId)
+            .Select(a => a.Genre.Name);
+
+        return genres;
+    }
+
+    public IEnumerable<string> GetAlbumStyles(int albumId)
+    {
         var albumStyles = context.AlbumStyles
             .Include(a => a.Style);
 
-        foreach (var album in albumCollection)
-        {
-            var countries = albumCountries.Where(a =>
-                a.AlbumId == album.Id)
-                .Select(a => a.Country.Name);
+        var styles = albumStyles.Where(a =>
+            a.AlbumId == albumId)
+            .Select(a => a.Style.Name);
 
-            album.Countries.AddRange(countries);
-
-            var genres = albumGenres.Where(a =>
-                a.AlbumId == album.Id)
-                .Select(a => a.Genre.Name);
-
-            album.Genres.AddRange(genres);
-
-            var styles = albumStyles.Where(a =>
-                a.AlbumId == album.Id)
-                .Select(a => a.Style.Name);
-
-            album.Styles.AddRange(styles);
-        }
-
-        return albumCollection;
+        return styles;
     }
 
     public Album? GetById(int id)
     {
         var album = context.Albums.SingleOrDefault(a => a.Id == id);
-
-        if (album == null)
-        {
-            return null;
-        }
-
-        var countries = context.AlbumCountries
-            .Where(c => c.AlbumId == id)
-            .Include(c => c.Country)
-            .Select(c => c.Country.Name);
-
-        album.Countries.AddRange(countries);
-
-        var genres = context.AlbumGenres
-            .Where(g => g.AlbumId == id)
-            .Include(g => g.Genre)
-            .Select(g => g.Genre.Name);
-
-        album.Genres.AddRange(genres);
-
-        var styles = context.AlbumStyles
-            .Where(s => s.AlbumId == id)
-            .Include(s => s.Style)
-            .Select(s => s.Style.Name);
-
-        album.Styles.AddRange(styles);
 
         return album;
     }

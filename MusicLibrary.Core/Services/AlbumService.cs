@@ -23,6 +23,18 @@ public class AlbumService
     {
         var results = database.GetAll();
 
+        foreach (var album in results)
+        {
+            var countries = database.GetAlbumCountries(album.Id);
+            album.Countries.AddRange(countries);
+
+            var genres = database.GetAlbumGenres(album.Id);
+            album.Genres.AddRange(genres);
+
+            var styles = database.GetAlbumStyles(album.Id);
+            album.Styles.AddRange(styles);
+        }
+
         var ordered = results.OrderByDescending(a => a.AquiredDate);
 
         return ordered;
@@ -30,7 +42,23 @@ public class AlbumService
 
     public Album? GetById(int id)
     {
-        return database.GetById(id);
+        var album = database.GetById(id);
+
+        if (album == null)
+        {
+            return null;
+        }
+
+        var countries = database.GetAlbumCountries(id);
+        album.Countries.AddRange(countries);
+
+        var genres = database.GetAlbumGenres(id);
+        album.Genres.AddRange(genres);
+
+        var styles = database.GetAlbumStyles(id);
+        album.Styles.AddRange(styles);
+
+        return album;
     }
 
     public IEnumerable<Album> GetByTitle(string title)
@@ -43,6 +71,18 @@ public class AlbumService
             filtered = results.Where(a =>
                 a!.Title!.ToUpper()
                     .Contains(title.ToUpper()));
+        }
+
+        foreach (var album in filtered)
+        {
+            var countries = database.GetAlbumCountries(album.Id);
+            album.Countries.AddRange(countries);
+
+            var genres = database.GetAlbumGenres(album.Id);
+            album.Genres.AddRange(genres);
+
+            var styles = database.GetAlbumStyles(album.Id);
+            album.Styles.AddRange(styles);
         }
 
         return filtered;

@@ -2,7 +2,7 @@ using MusicLibrary.Core.Models;
 using MusicLibrary.Core.Repositories;
 using MusicLibrary.Core.Services;
 
-namespace MusicLibrary.Core.Tests;
+namespace MusicLibrary.Core.Tests.AlbumServiceTests;
 
 public class AlbumServiceTests
 {
