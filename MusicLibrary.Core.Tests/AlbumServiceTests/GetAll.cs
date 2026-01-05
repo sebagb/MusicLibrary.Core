@@ -4,10 +4,10 @@ using MusicLibrary.Core.Services;
 
 namespace MusicLibrary.Core.Tests.AlbumServiceTests;
 
-public class AlbumServiceTests
+public class GetAll
 {
     [Fact]
-    public void CountriesNamesAreLoadedToAlbumCountriesWhenRetrievingAlbums()
+    public void CountryNamesAreLoadedForEveryAlbum()
     {
         var repo = new AlbumRepositoryTest()
             .WithAlbums()
@@ -22,7 +22,7 @@ public class AlbumServiceTests
     }
 
     [Fact]
-    public void GenresNamesAreLoadedToAlbumGenresWhenRetrievingAlbums()
+    public void GenreNamesAreLoadedForEveryAlbum()
     {
         var repo = new AlbumRepositoryTest()
             .WithAlbums()
@@ -37,7 +37,7 @@ public class AlbumServiceTests
     }
 
     [Fact]
-    public void StylesNamesAreLoadedToAlbumStylesWhenRetrievingAlbums()
+    public void StyleNamesAreLoadedForEveryAlbum()
     {
         var repo = new AlbumRepositoryTest()
             .WithAlbums()
