@@ -1,3 +1,4 @@
+using MusicLibrary.Core.Models;
 using MusicLibrary.Core.Services;
 
 namespace MusicLibrary.Core.Tests.AlbumServiceTests;
@@ -8,10 +9,11 @@ public class GetAll
     public void CountriesCollectionIsEmptyIfAlbumHasNoCountries()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums();
+            .WithAlbum(1111)
+            .WithAlbum(2222);
         var service = new AlbumService(repo);
 
-        var collection = service.GetAll();
+        var collection = service.GetAll(new GetAllAlbumOptions());
 
         var firstAlbum = collection.First();
         var albumCountries = firstAlbum.Countries;
@@ -22,11 +24,12 @@ public class GetAll
     public void CountriesAreLoadedForEveryAlbum()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums()
+            .WithAlbum(1111)
+            .WithAlbum(2222)
             .WithCountries();
         var service = new AlbumService(repo);
 
-        var collection = service.GetAll();
+        var collection = service.GetAll(new GetAllAlbumOptions());
 
         var firstAlbum = collection.First();
         var albumCountries = firstAlbum.Countries;
@@ -37,10 +40,11 @@ public class GetAll
     public void GenresCollectionIsEmptyIfAlbumHasNoGenres()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums();
+            .WithAlbum(1111)
+            .WithAlbum(2222);
         var service = new AlbumService(repo);
 
-        var collection = service.GetAll();
+        var collection = service.GetAll(new GetAllAlbumOptions());
 
         var firstAlbum = collection.First();
         var albumGenres = firstAlbum.Genres;
@@ -51,11 +55,12 @@ public class GetAll
     public void GenrsAreLoadedForEveryAlbum()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums()
+            .WithAlbum(1111)
+            .WithAlbum(2222)
             .WithGenres();
         var service = new AlbumService(repo);
 
-        var collection = service.GetAll();
+        var collection = service.GetAll(new GetAllAlbumOptions());
 
         var firstAlbum = collection.First();
         var albumGenres = firstAlbum.Genres;
@@ -66,10 +71,11 @@ public class GetAll
     public void StylesCollectionIsEmptyIfAlbumHasNoStyles()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums();
+            .WithAlbum(1111)
+            .WithAlbum(2222);
         var service = new AlbumService(repo);
 
-        var collection = service.GetAll();
+        var collection = service.GetAll(new GetAllAlbumOptions());
 
         var firstAlbum = collection.First();
         var albumStyles = firstAlbum.Styles;
@@ -80,14 +86,54 @@ public class GetAll
     public void StylesAreLoadedForEveryAlbum()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums()
+            .WithAlbum(1111)
+            .WithAlbum(2222)
             .WithStyles();
         var service = new AlbumService(repo);
 
-        var collection = service.GetAll();
+        var collection = service.GetAll(new GetAllAlbumOptions());
 
         var firstAlbum = collection.First();
         var albumStyles = firstAlbum.Styles;
         Assert.NotEmpty(albumStyles);
+    }
+
+    [Fact]
+    public void AlbumIsFilteredByTitle()
+    {
+        var searchedTitle = "Believer";
+        var repo = new AlbumRepositoryMock()
+            .WithAlbum(title: "Submarino")
+            .WithAlbum(title: "Eclipse")
+            .WithAlbum(title: searchedTitle)
+            .WithAlbum(title: "Nocturnalia");
+        var service = new AlbumService(repo);
+        var options = new GetAllAlbumOptions()
+        {
+            TitleFilter = searchedTitle
+        };
+
+        var collection = service.GetAll(options);
+
+        var firstAlbum = collection.First();
+        Assert.Equal(searchedTitle, firstAlbum.Title);
+    }
+
+    [Fact]
+    public void TitleFilterIsNotAppliedIfEmpty()
+    {
+        var repo = new AlbumRepositoryMock()
+            .WithAlbum(title: "Submarino")
+            .WithAlbum(title: "Eclipse")
+            .WithAlbum(title: "Nocturnalia");
+        var service = new AlbumService(repo);
+        var options = new GetAllAlbumOptions()
+        {
+            TitleFilter = string.Empty
+        };
+
+        var collection = service.GetAll(options);
+
+        Assert.Equal(3, collection.Count());
     }
 }

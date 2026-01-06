@@ -65,12 +65,26 @@ public class AlbumRepositoryMock : IAlbumRepository
     }
 
 
-    public AlbumRepositoryMock WithAlbums()
+    public AlbumRepositoryMock WithAlbum(
+        int id = 1111,
+        string? artist = "AlbumArtist",
+        string? title = "AlbumTitle",
+        string? label = "AlbumLabel",
+        string? catalogNumber = "AlbumCatalogNumber",
+        decimal priceEuro = 10,
+        DateOnly aquiredDate = new DateOnly())
     {
-        albums = [
-            new Album() { Id = 1111 },
-            new Album() { Id = 2222 },
-            new Album() { Id = 3333 }];
+        var album = new Album
+        {
+            Id = id,
+            Artist = artist,
+            Title = title,
+            Label = label,
+            CatalogNumber = catalogNumber,
+            PriceEuro = priceEuro,
+            AquiredDate = aquiredDate
+        };
+        albums.Add(album);
 
         return this;
     }

@@ -19,9 +19,19 @@ public class AlbumService
         return database.Delete(id);
     }
 
-    public IEnumerable<Album> GetAll()
+    public IEnumerable<Album> GetAll(GetAllAlbumOptions options)
     {
         var results = database.GetAll();
+
+        results = results.Where(x =>
+            options.ArtistFilter == null
+            || x.Artist!.Contains(options.ArtistFilter,
+                StringComparison.CurrentCultureIgnoreCase));
+
+        results = results.Where(x =>
+            options.TitleFilter == null
+            || x.Title!.Contains(options.TitleFilter,
+                StringComparison.CurrentCultureIgnoreCase));
 
         foreach (var album in results)
         {

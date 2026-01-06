@@ -9,7 +9,8 @@ public class GetById
     public void AlbumIsNullWhenNotFound()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums();
+            .WithAlbum(1111)
+            .WithAlbum(2222);
         var service = new AlbumService(repo);
 
         var album = service.GetById(1489091123);
@@ -21,7 +22,8 @@ public class GetById
     public void AlbumIsNotNullWhenFound()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums();
+            .WithAlbum(1111)
+            .WithAlbum(2222);
         var service = new AlbumService(repo);
 
         var album = service.GetById(1111);
@@ -33,7 +35,8 @@ public class GetById
     public void CountriesCollectionIsEmptyIfAlbumHasNoCountries()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums();
+            .WithAlbum(1111)
+            .WithAlbum(2222);
         var service = new AlbumService(repo);
 
         var album = service.GetById(1111);
@@ -46,7 +49,8 @@ public class GetById
     public void CountriesAreLoaded()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums()
+            .WithAlbum(1111)
+            .WithAlbum(2222)
             .WithCountries();
         var service = new AlbumService(repo);
 
@@ -60,7 +64,8 @@ public class GetById
     public void GenresCollectionIsEmptyIfAlbumHasNoGenres()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums();
+            .WithAlbum(1111)
+            .WithAlbum(2222);
         var service = new AlbumService(repo);
 
         var album = service.GetById(1111);
@@ -73,7 +78,8 @@ public class GetById
     public void GenresAreLoaded()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums()
+            .WithAlbum(1111)
+            .WithAlbum(2222)
             .WithGenres();
         var service = new AlbumService(repo);
 
@@ -87,7 +93,8 @@ public class GetById
     public void StylesCollectionIsEmptyIfAlbumHasNoStyles()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums();
+            .WithAlbum(1111)
+            .WithAlbum(2222);
         var service = new AlbumService(repo);
 
         var album = service.GetById(1111);
@@ -100,7 +107,8 @@ public class GetById
     public void StylesAreLoaded()
     {
         var repo = new AlbumRepositoryMock()
-            .WithAlbums()
+            .WithAlbum(1111)
+            .WithAlbum(2222)
             .WithStyles();
         var service = new AlbumService(repo);
 
