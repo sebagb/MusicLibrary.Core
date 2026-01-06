@@ -35,7 +35,7 @@ public class AlbumRepositoryMock : IAlbumRepository
 
     public Album? GetById(int id)
     {
-        throw new NotImplementedException();
+        return albums.SingleOrDefault(x => x.Id == id);
     }
 
     public bool Update(Album album)
