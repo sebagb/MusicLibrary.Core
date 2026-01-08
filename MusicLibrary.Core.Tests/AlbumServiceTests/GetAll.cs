@@ -136,4 +136,41 @@ public class GetAll
 
         Assert.Equal(3, collection.Count());
     }
+
+    [Fact]
+    public void AlbumIsFilteredByArtist()
+    {
+        var searchedArtist = "Jimi";
+        var repo = new AlbumRepositoryMock()
+            .WithAlbum(artist: "Joe")
+            .WithAlbum(artist: searchedArtist)
+            .WithAlbum(artist: "Dan");
+        var service = new AlbumService(repo);
+        var options = new GetAllAlbumOptions()
+        {
+            ArtistFilter = searchedArtist
+        };
+
+        var collection = service.GetAll(options);
+
+        var album = collection.First();
+        Assert.Equal(searchedArtist, album.Artist);
+    }
+
+    [Fact]
+    public void AlbumFilterIsNotAppliedIfEmpty()
+    {
+        var repo = new AlbumRepositoryMock()
+            .WithAlbum(artist: "Joe")
+            .WithAlbum(artist: "Dan");
+        var service = new AlbumService(repo);
+        var options = new GetAllAlbumOptions()
+        {
+            ArtistFilter = string.Empty
+        };
+
+        var collection = service.GetAll(options);
+
+        Assert.Equal(2, collection.Count());
+    }
 }
