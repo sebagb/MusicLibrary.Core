@@ -93,33 +93,6 @@ public class AlbumService
         return album;
     }
 
-    public IEnumerable<Album> GetByTitle(string title)
-    {
-        var results = database.GetAll().AsQueryable();
-        var filtered = results;
-
-        if (!string.IsNullOrEmpty(title))
-        {
-            filtered = results.Where(a =>
-                a!.Title!.ToUpper()
-                    .Contains(title.ToUpper()));
-        }
-
-        foreach (var album in filtered)
-        {
-            var countries = database.GetAlbumCountries(album.Id);
-            album.Countries.AddRange(countries);
-
-            var genres = database.GetAlbumGenres(album.Id);
-            album.Genres.AddRange(genres);
-
-            var styles = database.GetAlbumStyles(album.Id);
-            album.Styles.AddRange(styles);
-        }
-
-        return filtered;
-    }
-
     public bool Update(Album album)
     {
         var exists = database.AlbumExistsById(album.Id);
