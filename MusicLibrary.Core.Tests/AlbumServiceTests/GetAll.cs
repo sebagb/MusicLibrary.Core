@@ -173,4 +173,54 @@ public class GetAll
 
         Assert.Equal(2, collection.Count());
     }
+
+    [Fact]
+    public void SortByArtistWithSameNameIsThenSortedByTitle()
+    {
+        var repo = new AlbumRepositoryMock()
+            .WithAlbum(id: 8888, artist: "Yang", title: "Blues")
+            .WithAlbum(id: 4444, artist: "Yang", title: "Rock")
+            .WithAlbum(id: 1111, artist: "Yang", title: "Zeep")
+            .WithAlbum(id: 4343, artist: "Bang", title: "Bong")
+            .WithAlbum(id: 2222, artist: "Yang", title: "Jazz");
+        var service = new AlbumService(repo);
+        var options = new GetAllAlbumOptions()
+        {
+            SortField = GetAllAlbumSortField.Artist,
+            SortOrder = GetAllAlbumSortOrder.Descending
+        };
+
+        var collection = service.GetAll(options);
+
+        Assert.Equal(1111, collection.ElementAt(0).Id);
+        Assert.Equal(4444, collection.ElementAt(1).Id);
+        Assert.Equal(2222, collection.ElementAt(2).Id);
+        Assert.Equal(8888, collection.ElementAt(3).Id);
+        Assert.Equal(4343, collection.ElementAt(4).Id);
+    }
+
+    [Fact]
+    public void SortByTitleWithSameNameIsThenSortedByArtist()
+    {
+        var repo = new AlbumRepositoryMock()
+            .WithAlbum(id: 8888, artist: "The Beatles", title: "Please Please Me")
+            .WithAlbum(id: 2222, artist: "The Replacements", title: "Let It Be")
+            .WithAlbum(id: 1111, artist: "The Beatles", title: "Let It Be")
+            .WithAlbum(id: 4343, artist: "Abba", title: "Voulez-Vous")
+            .WithAlbum(id: 4444, artist: "The Rollings", title: "Tatto You");
+        var service = new AlbumService(repo);
+        var options = new GetAllAlbumOptions()
+        {
+            SortField = GetAllAlbumSortField.Title,
+            SortOrder = GetAllAlbumSortOrder.Ascending
+        };
+
+        var collection = service.GetAll(options);
+
+        Assert.Equal(1111, collection.ElementAt(0).Id);
+        Assert.Equal(2222, collection.ElementAt(1).Id);
+        Assert.Equal(8888, collection.ElementAt(2).Id);
+        Assert.Equal(4444, collection.ElementAt(3).Id);
+        Assert.Equal(4343, collection.ElementAt(4).Id);
+    }
 }

@@ -45,9 +45,31 @@ public class AlbumService
             album.Styles.AddRange(styles);
         }
 
-        var ordered = results.OrderByDescending(a => a.AquiredDate);
+        if (options.SortOrder == GetAllAlbumSortOrder.Unsorted)
+        {
+            return results.OrderByDescending(a => a.AquiredDate);
+        }
 
-        return ordered;
+        switch (options.SortField)
+        {
+            case GetAllAlbumSortField.Artist:
+                results = options.SortOrder == GetAllAlbumSortOrder.Ascending ?
+                    results.OrderBy(x => x.Artist)
+                        .ThenBy(x => x.Title)
+                    : results.OrderByDescending(x => x.Artist)
+                        .ThenByDescending(x => x.Title);
+                break;
+            case GetAllAlbumSortField.Title:
+                results = options.SortOrder == GetAllAlbumSortOrder.Ascending ?
+                    results.OrderBy(x => x.Title)
+                        .ThenBy(x => x.Artist)
+                    : results.OrderByDescending(x => x.Title)
+                        .ThenByDescending(x => x.Artist);
+                break;
+            default:
+                break;
+        }
+        return results;
     }
 
     public Album? GetById(int id)
