@@ -47,7 +47,7 @@ public class AlbumService
 
         if (options.SortOrder == GetAllAlbumSortOrder.Unsorted)
         {
-            return results.OrderByDescending(a => a.AquiredDate);
+            return results.OrderBy(x => x.Artist).ThenBy(x => x.Title);
         }
 
         switch (options.SortField)
