@@ -186,7 +186,7 @@ public class GetAll
         var service = new AlbumService(repo);
         var options = new GetAllAlbumOptions()
         {
-            SortOrder = GetAllAlbumSortOrder.Unsorted
+            SortOrder = GetAllAlbumSortOrder.Default
         };
 
         var collection = service.GetAll(options);

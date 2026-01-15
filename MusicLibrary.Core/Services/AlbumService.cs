@@ -45,7 +45,7 @@ public class AlbumService
             album.Styles.AddRange(styles);
         }
 
-        if (options.SortOrder == GetAllAlbumSortOrder.Unsorted)
+        if (options.SortOrder == GetAllAlbumSortOrder.Default)
         {
             return results.OrderBy(x => x.Artist).ThenBy(x => x.Title);
         }

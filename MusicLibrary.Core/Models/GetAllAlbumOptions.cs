@@ -24,7 +24,7 @@ public enum GetAllAlbumSortField
 
 public enum GetAllAlbumSortOrder
 {
-    Unsorted,
+    Default,
     Ascending,
     Descending
 }
