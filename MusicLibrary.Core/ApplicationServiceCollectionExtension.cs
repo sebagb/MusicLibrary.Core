@@ -35,13 +35,15 @@ public static class ApplicationServiceCollectionExtension
     {
         service.AddSingleton(_ => new DiscogsAuth(key, secret));
 
-        service.AddHttpClient<DiscogsApiClient>(config =>
+        service.AddHttpClient<DiscogsHttpClient>(config =>
         {
             config.BaseAddress = new Uri(discogsApiUri);
             config.DefaultRequestHeaders.Add(
                 "User-Agent",
                 "MusicLibrary.Net/0.1");
         });
+
+        service.AddSingleton<DiscogsApiClient>();
 
         return service;
     }

@@ -1,15 +1,13 @@
-using System.Net;
-using System.Text.Json;
 using System.Web;
 using MusicLibrary.Core.Models;
 
 namespace MusicLibrary.Core.ApiClients;
 
 public class DiscogsApiClient
-    (HttpClient httpClient,
+    (DiscogsHttpClient client,
     DiscogsAuth auth)
 {
-    private readonly HttpClient httpClient = httpClient;
+    private readonly DiscogsHttpClient client = client;
     private readonly DiscogsAuth auth = auth;
 
     public DiscogsResults Search(Album album)
@@ -24,7 +22,7 @@ public class DiscogsApiClient
 
         var queryParameters = GetAlbumParameters(album);
 
-        var discogsDto = GetDiscogsDto(queryParameters);
+        var discogsDto = client.GetDiscogsDto(queryParameters);
 
         if (discogsDto == null || discogsDto.results == null)
         {
@@ -39,27 +37,6 @@ public class DiscogsApiClient
 
         var groupedResults = GroupResultSets(discogsDto!.results);
         return groupedResults;
-    }
-
-    private DiscogsDto GetDiscogsDto(string queryParameters)
-    {
-        var response = httpClient.GetAsync(queryParameters).Result;
-
-        if (!response.IsSuccessStatusCode)
-        {
-            var exceededRequests =
-                response.StatusCode == HttpStatusCode.TooManyRequests;
-            if (exceededRequests)
-            {
-                throw new NotImplementedException();
-            }
-
-            throw new NotImplementedException();
-        }
-
-        var json = response.Content.ReadAsStringAsync().Result;
-
-        return JsonSerializer.Deserialize<DiscogsDto>(json);
     }
 
     private string GetAlbumParameters(Album album)
