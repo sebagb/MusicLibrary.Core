@@ -11,9 +11,8 @@ public class DiscogsApiClient
 {
     private readonly HttpClient httpClient = httpClient;
     private readonly DiscogsAuth auth = auth;
-    public bool TooManyRequests { get; private set; }
 
-    public async Task<DiscogsResults> Search(Album album)
+    public DiscogsResults Search(Album album)
     {
         if (string.IsNullOrEmpty(album.Artist)
             && string.IsNullOrEmpty(album.Title)
@@ -25,22 +24,7 @@ public class DiscogsApiClient
 
         var queryParameters = GetAlbumParameters(album);
 
-        var response = await httpClient.GetAsync(queryParameters);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            var exceededRequests =
-                response.StatusCode == HttpStatusCode.TooManyRequests;
-            if (exceededRequests)
-            {
-                TooManyRequests = true;
-            }
-
-            throw new NotImplementedException();
-        }
-
-        var json = await response.Content.ReadAsStringAsync();
-        var discogsDto = JsonSerializer.Deserialize<DiscogsDto>(json);
+        var discogsDto = GetDiscogsDto(queryParameters);
 
         if (discogsDto == null || discogsDto.results == null)
         {
@@ -55,6 +39,27 @@ public class DiscogsApiClient
 
         var groupedResults = GroupResultSets(discogsDto!.results);
         return groupedResults;
+    }
+
+    private DiscogsDto GetDiscogsDto(string queryParameters)
+    {
+        var response = httpClient.GetAsync(queryParameters).Result;
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var exceededRequests =
+                response.StatusCode == HttpStatusCode.TooManyRequests;
+            if (exceededRequests)
+            {
+                throw new NotImplementedException();
+            }
+
+            throw new NotImplementedException();
+        }
+
+        var json = response.Content.ReadAsStringAsync().Result;
+
+        return JsonSerializer.Deserialize<DiscogsDto>(json);
     }
 
     private string GetAlbumParameters(Album album)
