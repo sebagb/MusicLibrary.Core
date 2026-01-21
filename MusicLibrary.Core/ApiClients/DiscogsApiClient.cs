@@ -10,15 +10,11 @@ public class DiscogsApiClient
     private readonly DiscogsHttpClient client = client;
     private readonly DiscogsAuth auth = auth;
 
-    public DiscogsResults Search(Album album)
+    public DiscogsResults Search(DiscogsApiParameters album)
     {
-        if (string.IsNullOrEmpty(album.Artist)
-            && string.IsNullOrEmpty(album.Title)
-            && string.IsNullOrEmpty(album.Label)
-            && string.IsNullOrEmpty(album.CatalogNumber))
-        {
-            throw new NotImplementedException();
-        }
+        ArgumentNullException.ThrowIfNull(album);
+        ArgumentException.ThrowIfNullOrWhiteSpace(album.Artist);
+        ArgumentException.ThrowIfNullOrWhiteSpace(album.Title);
 
         var queryParameters = GetAlbumParameters(album);
 
@@ -39,7 +35,7 @@ public class DiscogsApiClient
         return groupedResults;
     }
 
-    private string GetAlbumParameters(Album album)
+    private string GetAlbumParameters(DiscogsApiParameters album)
     {
         var parameterCollection = HttpUtility.ParseQueryString(string.Empty);
 

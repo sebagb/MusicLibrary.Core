@@ -6,17 +6,54 @@ namespace MusicLibrary.Core.Tests.DiscogsApiClientTests;
 public class Search
 {
     [Fact]
+    public void ThrowsArgumentNullExceptionIfDiscogsApiParametersIsNull()
+    {
+        var httpClient = new HttpClientTest(new HttpClient());
+        var auth = new DiscogsAuth("KeyTest", "SecretTest");
+        var client = new DiscogsApiClient(httpClient, auth);
+
+        Assert.Throws<ArgumentNullException>(() => client.Search(null));
+    }
+
+    [Fact]
+    public void ThrowsArgumentExceptionIfDiscogsApiParametersArtistIsNullOrWhiteSpace()
+    {
+        var httpClient = new HttpClientTest(new HttpClient());
+        var auth = new DiscogsAuth("KeyTest", "SecretTest");
+        var client = new DiscogsApiClient(httpClient, auth);
+        var apiParameters = new DiscogsApiParameters(
+            artist: string.Empty,
+            title: "Title");
+
+        Assert.Throws<ArgumentException>(
+            () => client.Search(apiParameters));
+    }
+
+    [Fact]
+    public void ThrowsArgumentExceptionIfDiscogsApiParametersTitleIsNullOrWhiteSpace()
+    {
+        var httpClient = new HttpClientTest(new HttpClient());
+        var auth = new DiscogsAuth("KeyTest", "SecretTest");
+        var client = new DiscogsApiClient(httpClient, auth);
+        var apiParameters = new DiscogsApiParameters(
+            artist: "Artist",
+            title: string.Empty);
+
+        Assert.Throws<ArgumentException>(
+            () => client.Search(apiParameters));
+    }
+
+    [Fact]
     public void SearchReturnsDiscogsResultsWithDiscogsDtoValues()
     {
         var httpClient = new HttpClientTest(new HttpClient());
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var album = new Album
-        {
-            Artist = "Led Zepelin"
-        };
+        var apiParameters = new DiscogsApiParameters(
+            artist: "Led Zeppelin",
+            title: "Physical Graffiti");
 
-        var discogsResult = client.Search(album);
+        var discogsResult = client.Search(apiParameters);
 
         var country = discogsResult.Countries.First();
         var genre = discogsResult.Genres.First();
