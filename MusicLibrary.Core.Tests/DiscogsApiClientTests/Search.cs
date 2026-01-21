@@ -12,7 +12,8 @@ public class Search
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
 
-        Assert.Throws<ArgumentNullException>(() => client.Search(null));
+        Assert.Throws<ArgumentNullException>(
+            () => client.Search(null));
     }
 
     [Fact]
