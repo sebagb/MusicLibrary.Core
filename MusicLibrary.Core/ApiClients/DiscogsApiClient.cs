@@ -10,13 +10,13 @@ public class DiscogsApiClient
     private readonly DiscogsHttpClient client = client;
     private readonly DiscogsAuth auth = auth;
 
-    public DiscogsResults Search(DiscogsApiParameters album)
+    public DiscogsResults Search(DiscogsApiParameters apiParameters)
     {
-        ArgumentNullException.ThrowIfNull(album);
-        ArgumentException.ThrowIfNullOrWhiteSpace(album.Artist);
-        ArgumentException.ThrowIfNullOrWhiteSpace(album.Title);
+        ArgumentNullException.ThrowIfNull(apiParameters);
+        ArgumentException.ThrowIfNullOrWhiteSpace(apiParameters.Artist);
+        ArgumentException.ThrowIfNullOrWhiteSpace(apiParameters.Title);
 
-        var queryParameters = GetAlbumParameters(album);
+        var queryParameters = GetQueryParameters(apiParameters);
 
         var discogsDto = client.GetDiscogsDto(queryParameters);
 
@@ -35,40 +35,17 @@ public class DiscogsApiClient
         return groupedResults;
     }
 
-    private string GetAlbumParameters(DiscogsApiParameters album)
+    private string GetQueryParameters(DiscogsApiParameters apiParameters)
     {
         var parameterCollection = HttpUtility.ParseQueryString(string.Empty);
-
-        var includeArtist = !string.IsNullOrEmpty(album.Artist);
-        if (includeArtist)
-        {
-            parameterCollection.Add("artist", album.Artist);
-        }
-
-        var includeTitle = !string.IsNullOrEmpty(album.Title);
-        if (includeTitle)
-        {
-            parameterCollection.Add("release_title", album.Title!);
-        }
-
-        var includeLabel = !string.IsNullOrEmpty(album.Label);
-        if (includeLabel)
-        {
-            parameterCollection.Add("label", album.Label!);
-        }
-
-        var includeCatalogNumber = !string.IsNullOrEmpty(album.CatalogNumber);
-        if (includeCatalogNumber)
-        {
-            parameterCollection.Add("catno", album.CatalogNumber!);
-        }
-
+        parameterCollection.Add("artist", apiParameters.Artist);
+        parameterCollection.Add("release_title", apiParameters.Title!);
         parameterCollection.Add("format", "vinyl");
         parameterCollection.Add("key", auth.Key);
         parameterCollection.Add("secret", auth.Secret);
 
         var parameterString = "?" + parameterCollection.ToString();
-        return parameterString!;
+        return parameterString;
     }
 
     private static DiscogsResults GroupResultSets(IEnumerable<DiscogsDto.ResultDto> dtoCollection)
