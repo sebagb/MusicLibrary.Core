@@ -85,36 +85,4 @@ public class QueryParameters
         var query = httpClient.QueryParameters;
         Assert.Contains($"format={format}", query);
     }
-
-    private class HttpClientTest : DiscogsHttpClient
-    {
-        public string QueryParameters = string.Empty;
-        private DiscogsDto? discogsDto = null;
-
-        private bool isSuccessStatusCode;
-
-        private HttpClientTest(HttpClient h) : base(h)
-        {
-
-        }
-
-        public static HttpClientTest Create()
-        {
-            var httpClient = new HttpClientTest(null!)
-            {
-                isSuccessStatusCode = true
-            };
-            return httpClient;
-        }
-
-        public override DiscogsResponse GetResponse(string queryParameters)
-        {
-            QueryParameters = queryParameters;
-            return DiscogsResponse.Create(
-                discogsDto: discogsDto,
-                tooManyRequests: false,
-                isSuccessStatusCode: isSuccessStatusCode
-            );
-        }
-    }
 }
