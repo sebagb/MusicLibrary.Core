@@ -45,24 +45,6 @@ public class Search
     }
 
     [Fact]
-    public void SearchReturnsDiscogsResultsWithDiscogsDtoValues()
-    {
-        var httpClient = new HttpClientTest(null!).WithDiscogsDto();
-        var auth = new DiscogsAuth("KeyTest", "SecretTest");
-        var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters(
-            artist: "Led Zeppelin",
-            title: "Physical Graffiti");
-
-        var discogsResult = client.Search(apiParameters);
-
-        var country = discogsResult.Countries.First();
-        var genre = discogsResult.Genres.First();
-        Assert.Equal("Italy", country);
-        Assert.Equal("Disco", genre);
-    }
-
-    [Fact]
     public void NoResultsFoundIsTrueWhenDiscogsDtoIsNull()
     {
         var httpClient = new HttpClientTest(null!);
@@ -107,5 +89,23 @@ public class Search
         var discogsResult = client.Search(apiParameters);
 
         Assert.True(discogsResult.NoResultsFound);
+    }
+
+    [Fact]
+    public void SearchReturnsDiscogsResultsWithDiscogsDtoValues()
+    {
+        var httpClient = new HttpClientTest(null!).WithDiscogsDto();
+        var auth = new DiscogsAuth("KeyTest", "SecretTest");
+        var client = new DiscogsApiClient(httpClient, auth);
+        var apiParameters = new DiscogsApiParameters(
+            artist: "Led Zeppelin",
+            title: "Physical Graffiti");
+
+        var discogsResult = client.Search(apiParameters);
+
+        var country = discogsResult.Countries.First();
+        var genre = discogsResult.Genres.First();
+        Assert.Equal("Italy", country);
+        Assert.Equal("Disco", genre);
     }
 }
