@@ -47,7 +47,7 @@ public class Search
     [Fact]
     public void SearchReturnsDiscogsResultsWithDiscogsDtoValues()
     {
-        var httpClient = new HttpClientTest(null!).WithResults();
+        var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters(

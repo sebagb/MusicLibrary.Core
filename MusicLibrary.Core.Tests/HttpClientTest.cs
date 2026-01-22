@@ -11,7 +11,7 @@ public class HttpClientTest
     private DiscogsDto? discogsDto = null;
     private bool isSuccessStatusCode = true;
 
-    public HttpClientTest WithResults()
+    public HttpClientTest WithDiscogsDto()
     {
         var results = new DiscogsDto.ResultDto()
         {
