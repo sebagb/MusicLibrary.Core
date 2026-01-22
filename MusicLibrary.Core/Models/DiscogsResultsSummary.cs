@@ -1,6 +1,6 @@
 namespace MusicLibrary.Core.Models;
 
-public record DiscogsResults
+public record DiscogsResultsSummary
 {
     public HashSet<string> Countries { get; set; } = [];
     public HashSet<string> CoverImages { get; set; } = [];

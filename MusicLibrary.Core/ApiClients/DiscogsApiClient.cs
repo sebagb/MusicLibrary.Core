@@ -10,7 +10,7 @@ public class DiscogsApiClient
     private readonly DiscogsHttpClient client = client;
     private readonly DiscogsAuth auth = auth;
 
-    public DiscogsResults Search(DiscogsApiParameters apiParameters)
+    public DiscogsResultsSummary Search(DiscogsApiParameters apiParameters)
     {
         ArgumentNullException.ThrowIfNull(apiParameters);
         ArgumentException.ThrowIfNullOrWhiteSpace(apiParameters.Artist);
@@ -18,21 +18,24 @@ public class DiscogsApiClient
 
         var queryParameters = GetQueryParameters(apiParameters);
 
-        var discogsDto = client.GetDiscogsDto(queryParameters);
+        var response = client.GetRequest(queryParameters);
 
-        if (discogsDto == null || discogsDto.results == null)
+        if (response.TooManyRequests)
         {
             throw new NotImplementedException();
         }
 
-        var hasNoResults = discogsDto == null || !discogsDto.results.Any();
-        if (hasNoResults)
+        if (!response.IsSuccessStatusCode)
         {
             throw new NotImplementedException();
         }
 
-        var groupedResults = GroupResultSets(discogsDto!.results);
-        return groupedResults;
+        if (response.DiscogsDto == null)
+        {
+            throw new NotImplementedException();
+        }
+
+        return GetDiscogsResultsSummary(response.DiscogsDto.results!);
     }
 
     private string GetQueryParameters(DiscogsApiParameters apiParameters)
@@ -48,9 +51,9 @@ public class DiscogsApiClient
         return parameterString;
     }
 
-    private static DiscogsResults GroupResultSets(IEnumerable<DiscogsDto.ResultDto> dtoCollection)
+    private static DiscogsResultsSummary GetDiscogsResultsSummary(IEnumerable<DiscogsDto.ResultDto> dtoCollection)
     {
-        return new DiscogsResults
+        return new DiscogsResultsSummary
         {
             Countries = [.. dtoCollection.Select(x => x.country!)],
 

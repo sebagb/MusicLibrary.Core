@@ -9,24 +9,22 @@ public class DiscogsHttpClient
 {
     private readonly HttpClient httpClient = httpClient;
 
-    public virtual DiscogsDto GetDiscogsDto(string queryParameters)
+    public virtual DiscogsResponse GetRequest(string queryParameters)
     {
         var response = httpClient.GetAsync(queryParameters).Result;
 
-        if (!response.IsSuccessStatusCode)
-        {
-            var exceededRequests =
-                response.StatusCode == HttpStatusCode.TooManyRequests;
-            if (exceededRequests)
-            {
-                throw new NotImplementedException();
-            }
-
-            throw new NotImplementedException();
-        }
+        var isSuccessStatusCode = response.IsSuccessStatusCode;
+        var tooManyRequests =
+            response.StatusCode == HttpStatusCode.TooManyRequests;
 
         var json = response.Content.ReadAsStringAsync().Result;
+        var discogsDto = JsonSerializer.Deserialize<DiscogsDto>(json);
 
-        return JsonSerializer.Deserialize<DiscogsDto>(json);
+        var discogsResponse = DiscogsResponse.Create(
+            discogsDto,
+            isSuccessStatusCode,
+            tooManyRequests);
+
+        return discogsResponse;
     }
 }

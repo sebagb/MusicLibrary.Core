@@ -13,7 +13,7 @@ public class Search
         var client = new DiscogsApiClient(httpClient, auth);
 
         Assert.Throws<ArgumentNullException>(
-            () => client.Search(null));
+            () => client.Search(null!));
     }
 
     [Fact]
@@ -66,7 +66,7 @@ public class Search
         (HttpClient httpClient)
         : DiscogsHttpClient(httpClient)
     {
-        public override DiscogsDto GetDiscogsDto(string queryParameters)
+        public override DiscogsResponse GetRequest(string queryParameters)
         {
             var r = new DiscogsDto.ResultDto()
             {
@@ -79,7 +79,9 @@ public class Search
                 results = [r]
             };
 
-            return dto;
+            var response = DiscogsResponse.Create(dto);
+
+            return response;
         }
     }
 }
