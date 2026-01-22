@@ -22,8 +22,8 @@ public class DiscogsHttpClient
 
         var discogsResponse = DiscogsResponse.Create(
             discogsDto,
-            isSuccessStatusCode,
-            tooManyRequests);
+            tooManyRequests,
+            isSuccessStatusCode);
 
         return discogsResponse;
     }
