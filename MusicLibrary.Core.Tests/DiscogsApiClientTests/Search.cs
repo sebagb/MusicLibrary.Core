@@ -8,7 +8,7 @@ public class Search
     [Fact]
     public void ThrowsArgumentNullExceptionIfDiscogsApiParametersIsNull()
     {
-        var httpClient = new HttpClientTest(new HttpClient());
+        var httpClient = HttpClientTest.Create();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
 
@@ -19,7 +19,7 @@ public class Search
     [Fact]
     public void ThrowsArgumentExceptionIfDiscogsApiParametersArtistIsNullOrWhiteSpace()
     {
-        var httpClient = new HttpClientTest(new HttpClient());
+        var httpClient = HttpClientTest.Create();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters(
@@ -33,7 +33,7 @@ public class Search
     [Fact]
     public void ThrowsArgumentExceptionIfDiscogsApiParametersTitleIsNullOrWhiteSpace()
     {
-        var httpClient = new HttpClientTest(new HttpClient());
+        var httpClient = HttpClientTest.Create();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters(
@@ -47,7 +47,7 @@ public class Search
     [Fact]
     public void SearchReturnsDiscogsResultsWithDiscogsDtoValues()
     {
-        var httpClient = new HttpClientTest(new HttpClient());
+        var httpClient = HttpClientTest.Create();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters(
@@ -62,24 +62,59 @@ public class Search
         Assert.Equal("Disco", genre);
     }
 
-    private class HttpClientTest
-        (HttpClient httpClient)
-        : DiscogsHttpClient(httpClient)
+    private class HttpClientTest : DiscogsHttpClient
     {
-        public override DiscogsResponse GetResponse(string queryParameters)
+        private DiscogsDto? discogsDto = null;
+        private bool isSuccessStatusCode;
+
+        private HttpClientTest(HttpClient h) : base(h)
         {
-            var r = new DiscogsDto.ResultDto()
+
+        }
+
+        public static HttpClientTest Create()
+        {
+            var httpClient = new HttpClientTest(null!)
+            {
+                isSuccessStatusCode = true,
+                discogsDto = new DiscogsDto
+                {
+                    results = [new DiscogsDto.ResultDto()
+                    {
+                        country = "Italy",
+                        genre = ["Disco"],
+                    }]
+                }
+            };
+            return httpClient;
+
+        }
+
+        public void WithResults()
+        {
+            var results = new DiscogsDto.ResultDto()
             {
                 country = "Italy",
                 genre = ["Disco"],
             };
 
-            var dto = new DiscogsDto
+            discogsDto = new DiscogsDto
             {
-                results = [r]
+                results = [results]
             };
+        }
 
-            var response = DiscogsResponse.Create(dto);
+        public void WithSuccessStatusCode()
+        {
+            isSuccessStatusCode = true;
+        }
+
+        public override DiscogsResponse GetResponse(string queryParameters)
+        {
+            var response = DiscogsResponse.Create(
+                discogsDto: discogsDto,
+                tooManyRequests: false,
+                isSuccessStatusCode: isSuccessStatusCode);
 
             return response;
         }

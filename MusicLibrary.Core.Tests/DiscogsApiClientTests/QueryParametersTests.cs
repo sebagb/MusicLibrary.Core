@@ -9,7 +9,7 @@ public class QueryParameters
     public void FirstCharacterIsAlwaysInterrogationMark()
     {
         var firstCharacter = '?';
-        var httpClient = new HttpClientTest(new HttpClient());
+        var httpClient = HttpClientTest.Create();
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters("A", "T");
@@ -24,7 +24,7 @@ public class QueryParameters
     public void ArtistIsEqualToDiscogsApiParametersArtist()
     {
         var artist = "LedZeppo";
-        var httpClient = new HttpClientTest(new HttpClient());
+        var httpClient = HttpClientTest.Create();
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters(
@@ -41,7 +41,7 @@ public class QueryParameters
     public void TitleIsEqualToDiscogsApiParametersTitle()
     {
         var title = "Meddle";
-        var httpClient = new HttpClientTest(new HttpClient());
+        var httpClient = HttpClientTest.Create();
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters(
@@ -59,7 +59,7 @@ public class QueryParameters
     {
         var key = "KeyTest";
         var secret = "SecretTest";
-        var httpClient = new HttpClientTest(new HttpClient());
+        var httpClient = HttpClientTest.Create();
         var auth = new DiscogsAuth(key, secret);
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters("A", "T");
@@ -75,7 +75,7 @@ public class QueryParameters
     public void AlwaysHasFormatEqualToVinyl()
     {
         var format = "vinyl";
-        var httpClient = new HttpClientTest(new HttpClient());
+        var httpClient = HttpClientTest.Create();
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters("A", "T");
@@ -86,16 +86,35 @@ public class QueryParameters
         Assert.Contains($"format={format}", query);
     }
 
-    private class HttpClientTest
-        (HttpClient httpClient)
-        : DiscogsHttpClient(httpClient)
+    private class HttpClientTest : DiscogsHttpClient
     {
         public string QueryParameters = string.Empty;
+        private DiscogsDto? discogsDto = null;
+
+        private bool isSuccessStatusCode;
+
+        private HttpClientTest(HttpClient h) : base(h)
+        {
+
+        }
+
+        public static HttpClientTest Create()
+        {
+            var httpClient = new HttpClientTest(null!)
+            {
+                isSuccessStatusCode = true
+            };
+            return httpClient;
+        }
 
         public override DiscogsResponse GetResponse(string queryParameters)
         {
             QueryParameters = queryParameters;
-            return DiscogsResponse.Create(null);
+            return DiscogsResponse.Create(
+                discogsDto: discogsDto,
+                tooManyRequests: false,
+                isSuccessStatusCode: isSuccessStatusCode
+            );
         }
     }
 }
