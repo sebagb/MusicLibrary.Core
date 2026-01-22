@@ -9,7 +9,7 @@ public class QueryParameters
     public void FirstCharacterIsAlwaysInterrogationMark()
     {
         var firstCharacter = '?';
-        var httpClient = HttpClientTest.Create();
+        var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters("A", "T");
@@ -24,7 +24,7 @@ public class QueryParameters
     public void ArtistIsEqualToDiscogsApiParametersArtist()
     {
         var artist = "LedZeppo";
-        var httpClient = HttpClientTest.Create();
+        var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters(
@@ -41,7 +41,7 @@ public class QueryParameters
     public void TitleIsEqualToDiscogsApiParametersTitle()
     {
         var title = "Meddle";
-        var httpClient = HttpClientTest.Create();
+        var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters(
@@ -59,7 +59,7 @@ public class QueryParameters
     {
         var key = "KeyTest";
         var secret = "SecretTest";
-        var httpClient = HttpClientTest.Create();
+        var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(key, secret);
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters("A", "T");
@@ -75,7 +75,7 @@ public class QueryParameters
     public void AlwaysHasFormatEqualToVinyl()
     {
         var format = "vinyl";
-        var httpClient = HttpClientTest.Create();
+        var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters("A", "T");

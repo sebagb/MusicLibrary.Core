@@ -8,7 +8,7 @@ public class Search
     [Fact]
     public void ThrowsArgumentNullExceptionIfDiscogsApiParametersIsNull()
     {
-        var httpClient = HttpClientTest.Create();
+        var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
 
@@ -19,7 +19,7 @@ public class Search
     [Fact]
     public void ThrowsArgumentExceptionIfDiscogsApiParametersArtistIsNullOrWhiteSpace()
     {
-        var httpClient = HttpClientTest.Create();
+        var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters(
@@ -33,7 +33,7 @@ public class Search
     [Fact]
     public void ThrowsArgumentExceptionIfDiscogsApiParametersTitleIsNullOrWhiteSpace()
     {
-        var httpClient = HttpClientTest.Create();
+        var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters(
@@ -47,7 +47,7 @@ public class Search
     [Fact]
     public void SearchReturnsDiscogsResultsWithDiscogsDtoValues()
     {
-        var httpClient = HttpClientTest.Create();
+        var httpClient = new HttpClientTest(null!).WithResults();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
         var apiParameters = new DiscogsApiParameters(
@@ -60,5 +60,18 @@ public class Search
         var genre = discogsResult.Genres.First();
         Assert.Equal("Italy", country);
         Assert.Equal("Disco", genre);
+    }
+
+    [Fact]
+    public void NoResultsFoundIsTrueWhenDiscogsDtoIsNull()
+    {
+        var httpClient = new HttpClientTest(null!);
+        var auth = new DiscogsAuth("KeyTest", "SecretTest");
+        var client = new DiscogsApiClient(httpClient, auth);
+        var apiParameters = new DiscogsApiParameters(
+            artist: "Led Zeppelin",
+            title: "Physical Graffiti");
+
+        var discogsResult = client.Search(apiParameters);
     }
 }

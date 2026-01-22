@@ -3,35 +3,15 @@ using MusicLibrary.Core.Models;
 
 namespace MusicLibrary.Core.Tests;
 
-public class HttpClientTest : DiscogsHttpClient
+public class HttpClientTest
+    (HttpClient httpClient)
+    : DiscogsHttpClient(httpClient)
 {
     public string QueryParameters = string.Empty;
     private DiscogsDto? discogsDto = null;
-    private bool isSuccessStatusCode;
+    private bool isSuccessStatusCode = true;
 
-    private HttpClientTest(HttpClient httpClient) : base(httpClient)
-    {
-
-    }
-
-    public static HttpClientTest Create()
-    {
-        var httpClient = new HttpClientTest(null!)
-        {
-            isSuccessStatusCode = true,
-            discogsDto = new DiscogsDto
-            {
-                results = [new DiscogsDto.ResultDto()
-                    {
-                        country = "Italy",
-                        genre = ["Disco"],
-                    }]
-            }
-        };
-        return httpClient;
-    }
-
-    public void WithResults()
+    public HttpClientTest WithResults()
     {
         var results = new DiscogsDto.ResultDto()
         {
@@ -43,11 +23,14 @@ public class HttpClientTest : DiscogsHttpClient
         {
             results = [results]
         };
+
+        return this;
     }
 
-    public void WithSuccessStatusCode()
+    public HttpClientTest WithSuccessStatusCode()
     {
         isSuccessStatusCode = true;
+        return this;
     }
 
     public override DiscogsResponse GetResponse(string queryParameters)
