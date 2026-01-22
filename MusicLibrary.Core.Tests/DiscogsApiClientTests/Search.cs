@@ -73,5 +73,7 @@ public class Search
             title: "Physical Graffiti");
 
         var discogsResult = client.Search(apiParameters);
+
+        Assert.True(discogsResult.NoResultsFound);
     }
 }
