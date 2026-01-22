@@ -18,7 +18,7 @@ public class DiscogsApiClient
 
         var queryParameters = GetQueryParameters(apiParameters);
 
-        var response = client.GetRequest(queryParameters);
+        var response = client.GetResponse(queryParameters);
 
         if (response.TooManyRequests)
         {

@@ -92,7 +92,7 @@ public class QueryParameters
     {
         public string QueryParameters = string.Empty;
 
-        public override DiscogsResponse GetRequest(string queryParameters)
+        public override DiscogsResponse GetResponse(string queryParameters)
         {
             QueryParameters = queryParameters;
             return DiscogsResponse.Create(null);

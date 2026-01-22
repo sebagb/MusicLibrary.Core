@@ -9,7 +9,7 @@ public class DiscogsHttpClient
 {
     private readonly HttpClient httpClient = httpClient;
 
-    public virtual DiscogsResponse GetRequest(string queryParameters)
+    public virtual DiscogsResponse GetResponse(string queryParameters)
     {
         var response = httpClient.GetAsync(queryParameters).Result;
 

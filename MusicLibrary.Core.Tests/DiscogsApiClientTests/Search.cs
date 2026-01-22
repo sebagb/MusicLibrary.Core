@@ -66,7 +66,7 @@ public class Search
         (HttpClient httpClient)
         : DiscogsHttpClient(httpClient)
     {
-        public override DiscogsResponse GetRequest(string queryParameters)
+        public override DiscogsResponse GetResponse(string queryParameters)
         {
             var r = new DiscogsDto.ResultDto()
             {
