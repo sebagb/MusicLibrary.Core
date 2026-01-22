@@ -32,7 +32,7 @@ public class DiscogsApiClient
 
         if (response.DiscogsDto == null)
         {
-            throw new NotImplementedException();
+            return new DiscogsResultsSummary() { NoResultsFound = true };
         }
 
         return GetDiscogsResultsSummary(response.DiscogsDto.results!);
