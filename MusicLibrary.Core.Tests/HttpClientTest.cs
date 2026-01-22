@@ -27,6 +27,21 @@ public class HttpClientTest
         return this;
     }
 
+    public HttpClientTest WithDiscogsDtoWithResultsNull()
+    {
+        discogsDto = new DiscogsDto();
+        return this;
+    }
+
+    public HttpClientTest WithDiscogsDtoWithResultsEmpty()
+    {
+        discogsDto = new DiscogsDto()
+        {
+            results = []
+        };
+        return this;
+    }
+
     public HttpClientTest WithSuccessStatusCode()
     {
         isSuccessStatusCode = true;

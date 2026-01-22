@@ -76,4 +76,36 @@ public class Search
 
         Assert.True(discogsResult.NoResultsFound);
     }
+
+    [Fact]
+    public void NoResultsFoundIsTrueWhenDiscogsDtoResultsAreNull()
+    {
+        var httpClient = new HttpClientTest(null!)
+            .WithDiscogsDtoWithResultsNull();
+        var auth = new DiscogsAuth("KeyTest", "SecretTest");
+        var client = new DiscogsApiClient(httpClient, auth);
+        var apiParameters = new DiscogsApiParameters(
+            artist: "Led Zeppelin",
+            title: "Physical Graffiti");
+
+        var discogsResult = client.Search(apiParameters);
+
+        Assert.True(discogsResult.NoResultsFound);
+    }
+
+    [Fact]
+    public void NoResultsFoundIsTrueWhenDiscogsDtoResultsAreEmpty()
+    {
+        var httpClient = new HttpClientTest(null!)
+            .WithDiscogsDtoWithResultsEmpty();
+        var auth = new DiscogsAuth("KeyTest", "SecretTest");
+        var client = new DiscogsApiClient(httpClient, auth);
+        var apiParameters = new DiscogsApiParameters(
+            artist: "Led Zeppelin",
+            title: "Physical Graffiti");
+
+        var discogsResult = client.Search(apiParameters);
+
+        Assert.True(discogsResult.NoResultsFound);
+    }
 }
