@@ -3,25 +3,8 @@ using MusicLibrary.Core.Models;
 
 namespace MusicLibrary.Core.Tests.DiscogsApiClientTests;
 
-public class QueryParameters
+public class ArtistAndTitleQueryParametersTests
 {
-    [Fact]
-    public void FirstCharacterIsAlwaysInterrogationMark()
-    {
-        var firstCharacter = '?';
-        var httpClient = new HttpClientTest(null!);
-        var auth = new DiscogsAuth(string.Empty, string.Empty);
-        var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
-            artist: "A",
-            title: "T");
-
-        client.SearchByArtistAndTitle(apiParameters);
-
-        var queryFirstCharacter = httpClient.QueryParameters.First();
-        Assert.Equal(firstCharacter, queryFirstCharacter);
-    }
-
     [Fact]
     public void ArtistIsEqualToDiscogsApiParametersArtist()
     {
@@ -54,6 +37,23 @@ public class QueryParameters
 
         var query = httpClient.QueryParameters;
         Assert.Contains($"release_title={title}", query);
+    }
+
+    [Fact]
+    public void FirstCharacterIsAlwaysInterrogationMark()
+    {
+        var firstCharacter = '?';
+        var httpClient = new HttpClientTest(null!);
+        var auth = new DiscogsAuth(string.Empty, string.Empty);
+        var client = new DiscogsApiClient(httpClient, auth);
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
+            artist: "A",
+            title: "T");
+
+        client.SearchByArtistAndTitle(apiParameters);
+
+        var queryFirstCharacter = httpClient.QueryParameters.First();
+        Assert.Equal(firstCharacter, queryFirstCharacter);
     }
 
     [Fact]
