@@ -17,7 +17,7 @@ public class DiscogsApiClient
         ArgumentException.ThrowIfNullOrWhiteSpace(apiParameters.Artist);
         ArgumentException.ThrowIfNullOrWhiteSpace(apiParameters.Title);
 
-        var queryParameters = GetQueryParameters(apiParameters);
+        var queryParameters = GetArtistAndTitleQueryParameters(apiParameters);
 
         var response = client.GetResponse(queryParameters);
 
@@ -39,15 +39,23 @@ public class DiscogsApiClient
         return GetDiscogsResultsSummary(response.DiscogsDto.results!);
     }
 
-    private string GetQueryParameters(
-        DiscogsSearchByArtistAndTitleParameters apiParameters)
+    private string GetBaseQueryParameters()
     {
         var parameterCollection = HttpUtility.ParseQueryString(string.Empty);
-        parameterCollection.Add("artist", apiParameters.Artist);
-        parameterCollection.Add("release_title", apiParameters.Title!);
         parameterCollection.Add("format", "vinyl");
         parameterCollection.Add("key", auth.Key);
         parameterCollection.Add("secret", auth.Secret);
+
+        return parameterCollection.ToString()!;
+    }
+
+    private string GetArtistAndTitleQueryParameters(
+        DiscogsSearchByArtistAndTitleParameters apiParameters)
+    {
+        var baseQuery = GetBaseQueryParameters();
+        var parameterCollection = HttpUtility.ParseQueryString(baseQuery);
+        parameterCollection.Add("artist", apiParameters.Artist);
+        parameterCollection.Add("release_title", apiParameters.Title);
 
         var parameterString = "?" + parameterCollection.ToString();
         return parameterString;
