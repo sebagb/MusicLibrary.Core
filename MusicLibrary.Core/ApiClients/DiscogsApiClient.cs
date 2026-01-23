@@ -39,6 +39,33 @@ public class DiscogsApiClient
         return GetDiscogsResultsSummary(response.DiscogsDto.results!);
     }
 
+    public DiscogsResultsSummary SearchByReleaseId(
+        DiscogsSearchByReleaseIdParameter apiParameters)
+    {
+        ArgumentNullException.ThrowIfNull(apiParameters);
+
+        var queryParameters = GetReleaseIdQueryParameters(apiParameters);
+
+        var response = client.GetResponse(queryParameters);
+
+        if (response.TooManyRequests)
+        {
+            throw new NotImplementedException();
+        }
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        if (response.DiscogsDto == null)
+        {
+            return new DiscogsResultsSummary() { NoResultsFound = true };
+        }
+
+        return GetDiscogsResultsSummary(response.DiscogsDto.results!);
+    }
+
     private string GetBaseQueryParameters()
     {
         var parameterCollection = HttpUtility.ParseQueryString(string.Empty);
@@ -56,6 +83,17 @@ public class DiscogsApiClient
         var parameterCollection = HttpUtility.ParseQueryString(baseQuery);
         parameterCollection.Add("artist", apiParameters.Artist);
         parameterCollection.Add("release_title", apiParameters.Title);
+
+        var parameterString = "?" + parameterCollection.ToString();
+        return parameterString;
+    }
+
+    private string GetReleaseIdQueryParameters(
+        DiscogsSearchByReleaseIdParameter apiParameter)
+    {
+        var baseQuery = GetBaseQueryParameters();
+        var parameterCollection = HttpUtility.ParseQueryString(baseQuery);
+        parameterCollection.Add("release_id", apiParameter.ReleaseId.ToString());
 
         var parameterString = "?" + parameterCollection.ToString();
         return parameterString;
