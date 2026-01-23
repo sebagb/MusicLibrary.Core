@@ -3,7 +3,7 @@ using MusicLibrary.Core.Models;
 
 namespace MusicLibrary.Core.Tests.DiscogsApiClientTests;
 
-public class ArtistAndTitleQueryParametersTests
+public class QueryParametersArtistAndTitleTests
 {
     [Fact]
     public void ArtistIsMappedToQueryParametersString()
