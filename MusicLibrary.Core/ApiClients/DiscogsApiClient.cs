@@ -11,7 +11,7 @@ public class DiscogsApiClient
     private readonly DiscogsAuth auth = auth;
 
     public DiscogsResultsSummary SearchByArtistAndTitle(
-        SearchByArtistAndTitleParameters apiParameters)
+        DiscogsSearchByArtistAndTitleParameters apiParameters)
     {
         ArgumentNullException.ThrowIfNull(apiParameters);
         ArgumentException.ThrowIfNullOrWhiteSpace(apiParameters.Artist);
@@ -40,7 +40,7 @@ public class DiscogsApiClient
     }
 
     private string GetQueryParameters(
-        SearchByArtistAndTitleParameters apiParameters)
+        DiscogsSearchByArtistAndTitleParameters apiParameters)
     {
         var parameterCollection = HttpUtility.ParseQueryString(string.Empty);
         parameterCollection.Add("artist", apiParameters.Artist);

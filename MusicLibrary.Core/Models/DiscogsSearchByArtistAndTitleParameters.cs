@@ -1,6 +1,6 @@
 namespace MusicLibrary.Core.Models;
 
-public class SearchByArtistAndTitleParameters
+public class DiscogsSearchByArtistAndTitleParameters
     (string artist,
     string title)
 {

@@ -22,7 +22,7 @@ public class Search
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters(
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
             artist: string.Empty,
             title: "Title");
 
@@ -36,7 +36,7 @@ public class Search
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters(
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
             artist: "Artist",
             title: string.Empty);
 
@@ -50,7 +50,7 @@ public class Search
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters(
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
             artist: "Led Zeppelin",
             title: "Physical Graffiti");
 
@@ -66,7 +66,7 @@ public class Search
             .WithDiscogsDtoWithResultsNull();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters(
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
             artist: "Led Zeppelin",
             title: "Physical Graffiti");
 
@@ -82,7 +82,7 @@ public class Search
             .WithDiscogsDtoWithResultsEmpty();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters(
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
             artist: "Led Zeppelin",
             title: "Physical Graffiti");
 
@@ -97,7 +97,9 @@ public class Search
         var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
+            artist: "A",
+            title: "T");
 
         var resultsSummary = client.SearchByArtistAndTitle(apiParameters);
 
@@ -111,7 +113,9 @@ public class Search
         var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
+            artist: "A",
+            title: "T");
 
         var resultsSummary = client.SearchByArtistAndTitle(apiParameters);
 
@@ -125,7 +129,9 @@ public class Search
         var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
+            artist: "A",
+            title: "T");
 
         var resultsSummary = client.SearchByArtistAndTitle(apiParameters);
 
@@ -139,7 +145,9 @@ public class Search
         var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
+            artist: "A",
+            title: "T");
 
         var resultsSummary = client.SearchByArtistAndTitle(apiParameters);
 
@@ -154,11 +162,14 @@ public class Search
         var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
+            artist: "A",
+            title: "T");
 
         var resultsSummary = client.SearchByArtistAndTitle(apiParameters);
 
-        var coverImages = resultsSummary.CoverImages.Where(x => x.Equals("url"));
+        var coverImages = resultsSummary.CoverImages
+            .Where(x => x.Equals("url"));
         Assert.Single(coverImages);
     }
 }

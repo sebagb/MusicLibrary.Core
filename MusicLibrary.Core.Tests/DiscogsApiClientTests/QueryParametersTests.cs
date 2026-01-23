@@ -12,7 +12,9 @@ public class QueryParameters
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
+            artist: "A",
+            title: "T");
 
         client.SearchByArtistAndTitle(apiParameters);
 
@@ -27,7 +29,7 @@ public class QueryParameters
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters(
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
             artist: artist,
             title: "T");
 
@@ -44,7 +46,7 @@ public class QueryParameters
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters(
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
             artist: "A",
             title: title);
 
@@ -62,7 +64,9 @@ public class QueryParameters
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(key, secret);
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
+            artist: "A",
+            title: "T");
 
         client.SearchByArtistAndTitle(apiParameters);
 
@@ -78,7 +82,9 @@ public class QueryParameters
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
+        var apiParameters = new DiscogsSearchByArtistAndTitleParameters(
+            artist: "A",
+            title: "T");
 
         client.SearchByArtistAndTitle(apiParameters);
 
