@@ -51,23 +51,30 @@ public class DiscogsApiClient
         return parameterString;
     }
 
-    private static DiscogsResultsSummary GetDiscogsResultsSummary(IEnumerable<DiscogsDto.ResultDto> dtoCollection)
+    private static DiscogsResultsSummary GetDiscogsResultsSummary(
+        IEnumerable<DiscogsDto.ResultDto> dtoCollection)
     {
         return new DiscogsResultsSummary
         {
-            Countries = [.. dtoCollection.Select(x => x.country!)],
+            Countries = [.. dtoCollection
+                .Where(x => x.country != null)
+                .Select(x => x.country!)],
 
-            CoverImages = [.. dtoCollection.Select(x => x.cover_image)],
+            CoverImages = [.. dtoCollection
+                .Where(x => x.cover_image != null)
+                .Select(x => x.cover_image!)],
 
             Genres = [.. dtoCollection
                 .Where(g => g.genre != null)
-                .SelectMany(g => g.genre!)],
+                .SelectMany(g => g.genre)],
 
             Styles = [.. dtoCollection
                 .Where(s => s.style != null)
-                .SelectMany(s => s.style!)],
+                .SelectMany(s => s.style)],
 
-            Years = [.. dtoCollection.Select(x => x.year)]
+            Years = [.. dtoCollection
+                .Where(x => x.year != null)
+                .Select(x => x.year!)]
         };
     }
 }

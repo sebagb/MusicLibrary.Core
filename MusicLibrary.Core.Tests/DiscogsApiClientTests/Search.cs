@@ -92,20 +92,73 @@ public class Search
     }
 
     [Fact]
-    public void SearchReturnsDiscogsResultsWithDiscogsDtoValues()
+    public void DuplicateCountriesOnDiscogsDtoResultsAppearOnceOnDiscogsResultsSummary()
     {
         var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters(
-            artist: "Led Zeppelin",
-            title: "Physical Graffiti");
+        var apiParameters = new DiscogsApiParameters("A", "T");
 
-        var discogsResult = client.Search(apiParameters);
+        var resultsSummary = client.Search(apiParameters);
 
-        var country = discogsResult.Countries.First();
-        var genre = discogsResult.Genres.First();
-        Assert.Equal("Italy", country);
-        Assert.Equal("Disco", genre);
+        var countries = resultsSummary.Countries.Where(x => x.Equals("Italy"));
+        Assert.Single(countries);
+    }
+
+    [Fact]
+    public void DuplicateGeneresOnDiscogsDtoResultsAppearOnceOnDiscogsResultsSummary()
+    {
+        var httpClient = new HttpClientTest(null!).WithDiscogsDto();
+        var auth = new DiscogsAuth("KeyTest", "SecretTest");
+        var client = new DiscogsApiClient(httpClient, auth);
+        var apiParameters = new DiscogsApiParameters("A", "T");
+
+        var resultsSummary = client.Search(apiParameters);
+
+        var genres = resultsSummary.Genres.Where(x => x.Equals("Disco"));
+        Assert.Single(genres);
+    }
+
+    [Fact]
+    public void DuplicateStylesOnDiscogsDtoResultsAppearOnceOnDiscogsResultsSummary()
+    {
+        var httpClient = new HttpClientTest(null!).WithDiscogsDto();
+        var auth = new DiscogsAuth("KeyTest", "SecretTest");
+        var client = new DiscogsApiClient(httpClient, auth);
+        var apiParameters = new DiscogsApiParameters("A", "T");
+
+        var resultsSummary = client.Search(apiParameters);
+
+        var styles = resultsSummary.Styles.Where(x => x.Equals("Dance"));
+        Assert.Single(styles);
+    }
+
+    [Fact]
+    public void DuplicateYearsOnDiscogsDtoResultsAppearOnceOnDiscogsResultsSummary()
+    {
+        var httpClient = new HttpClientTest(null!).WithDiscogsDto();
+        var auth = new DiscogsAuth("KeyTest", "SecretTest");
+        var client = new DiscogsApiClient(httpClient, auth);
+        var apiParameters = new DiscogsApiParameters("A", "T");
+
+        var resultsSummary = client.Search(apiParameters);
+
+        var years = resultsSummary.Years.Where(x => x.Equals("2019"));
+        Assert.Single(years);
+    }
+
+
+    [Fact]
+    public void DuplicateCoverImagesOnDiscogsDtoResultsAppearOnceOnDiscogsResultsSummary()
+    {
+        var httpClient = new HttpClientTest(null!).WithDiscogsDto();
+        var auth = new DiscogsAuth("KeyTest", "SecretTest");
+        var client = new DiscogsApiClient(httpClient, auth);
+        var apiParameters = new DiscogsApiParameters("A", "T");
+
+        var resultsSummary = client.Search(apiParameters);
+
+        var coverImages = resultsSummary.CoverImages.Where(x => x.Equals("url"));
+        Assert.Single(coverImages);
     }
 }

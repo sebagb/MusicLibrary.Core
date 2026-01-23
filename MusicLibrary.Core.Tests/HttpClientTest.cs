@@ -13,15 +13,37 @@ public class HttpClientTest
 
     public HttpClientTest WithDiscogsDto()
     {
-        var results = new DiscogsDto.ResultDto()
-        {
-            country = "Italy",
-            genre = ["Disco"],
-        };
-
         discogsDto = new DiscogsDto
         {
-            results = [results]
+            results = [
+                new DiscogsDto.ResultDto()
+                {
+                    country = "Italy",
+                    genre = ["Disco", "Pop"],
+                    style = ["Dance"],
+                },
+                new DiscogsDto.ResultDto() {
+                    id = 1111,
+                    country = "Uruguay",
+                    year = "2019",
+                    genre = ["Disco", "Candombe"],
+                    style = ["Dance"],
+                    cover_image = "url"
+                },
+                new DiscogsDto.ResultDto() {
+                    id = 2222,
+                    country = "Italy",
+                    year = "2019",
+                    genre = ["Pop", "Candombe"],
+                    style = ["Dance"],
+                    cover_image = "url"
+                },
+                new DiscogsDto.ResultDto() {
+                    id = 3333,
+                    year = "2019",
+                    genre = ["Pop", "Candombe"],
+                    style = ["Dance"],
+                }]
         };
 
         return this;
