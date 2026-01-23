@@ -6,7 +6,7 @@ namespace MusicLibrary.Core.Tests.DiscogsApiClientTests;
 public class ArtistAndTitleQueryParametersTests
 {
     [Fact]
-    public void ArtistIsEqualToDiscogsApiParametersArtist()
+    public void ArtistIsMappedToQueryParametersString()
     {
         var artist = "LedZeppo";
         var httpClient = new HttpClientTest(null!);
@@ -23,7 +23,7 @@ public class ArtistAndTitleQueryParametersTests
     }
 
     [Fact]
-    public void TitleIsEqualToDiscogsApiParametersTitle()
+    public void TitleIsMappedToQueryParametersString()
     {
         var title = "Meddle";
         var httpClient = new HttpClientTest(null!);
