@@ -3,7 +3,7 @@ using MusicLibrary.Core.Models;
 
 namespace MusicLibrary.Core.Tests.DiscogsApiClientTests;
 
-public class Search
+public class DiscogsSearchByArtistAndTitleTests
 {
     [Fact]
     public void ThrowsArgumentNullExceptionIfDiscogsApiParametersIsNull()
