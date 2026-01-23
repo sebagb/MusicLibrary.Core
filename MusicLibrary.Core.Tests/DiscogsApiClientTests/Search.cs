@@ -13,7 +13,7 @@ public class Search
         var client = new DiscogsApiClient(httpClient, auth);
 
         Assert.Throws<ArgumentNullException>(
-            () => client.Search(null!));
+            () => client.SearchByArtistAndTitle(null!));
     }
 
     [Fact]
@@ -22,12 +22,12 @@ public class Search
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters(
+        var apiParameters = new SearchByArtistAndTitleParameters(
             artist: string.Empty,
             title: "Title");
 
         Assert.Throws<ArgumentException>(
-            () => client.Search(apiParameters));
+            () => client.SearchByArtistAndTitle(apiParameters));
     }
 
     [Fact]
@@ -36,12 +36,12 @@ public class Search
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters(
+        var apiParameters = new SearchByArtistAndTitleParameters(
             artist: "Artist",
             title: string.Empty);
 
         Assert.Throws<ArgumentException>(
-            () => client.Search(apiParameters));
+            () => client.SearchByArtistAndTitle(apiParameters));
     }
 
     [Fact]
@@ -50,11 +50,11 @@ public class Search
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters(
+        var apiParameters = new SearchByArtistAndTitleParameters(
             artist: "Led Zeppelin",
             title: "Physical Graffiti");
 
-        var discogsResult = client.Search(apiParameters);
+        var discogsResult = client.SearchByArtistAndTitle(apiParameters);
 
         Assert.True(discogsResult.NoResultsFound);
     }
@@ -66,11 +66,11 @@ public class Search
             .WithDiscogsDtoWithResultsNull();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters(
+        var apiParameters = new SearchByArtistAndTitleParameters(
             artist: "Led Zeppelin",
             title: "Physical Graffiti");
 
-        var discogsResult = client.Search(apiParameters);
+        var discogsResult = client.SearchByArtistAndTitle(apiParameters);
 
         Assert.True(discogsResult.NoResultsFound);
     }
@@ -82,11 +82,11 @@ public class Search
             .WithDiscogsDtoWithResultsEmpty();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters(
+        var apiParameters = new SearchByArtistAndTitleParameters(
             artist: "Led Zeppelin",
             title: "Physical Graffiti");
 
-        var discogsResult = client.Search(apiParameters);
+        var discogsResult = client.SearchByArtistAndTitle(apiParameters);
 
         Assert.True(discogsResult.NoResultsFound);
     }
@@ -97,9 +97,9 @@ public class Search
         var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters("A", "T");
+        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
 
-        var resultsSummary = client.Search(apiParameters);
+        var resultsSummary = client.SearchByArtistAndTitle(apiParameters);
 
         var countries = resultsSummary.Countries.Where(x => x.Equals("Italy"));
         Assert.Single(countries);
@@ -111,9 +111,9 @@ public class Search
         var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters("A", "T");
+        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
 
-        var resultsSummary = client.Search(apiParameters);
+        var resultsSummary = client.SearchByArtistAndTitle(apiParameters);
 
         var genres = resultsSummary.Genres.Where(x => x.Equals("Disco"));
         Assert.Single(genres);
@@ -125,9 +125,9 @@ public class Search
         var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters("A", "T");
+        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
 
-        var resultsSummary = client.Search(apiParameters);
+        var resultsSummary = client.SearchByArtistAndTitle(apiParameters);
 
         var styles = resultsSummary.Styles.Where(x => x.Equals("Dance"));
         Assert.Single(styles);
@@ -139,9 +139,9 @@ public class Search
         var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters("A", "T");
+        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
 
-        var resultsSummary = client.Search(apiParameters);
+        var resultsSummary = client.SearchByArtistAndTitle(apiParameters);
 
         var years = resultsSummary.Years.Where(x => x.Equals("2019"));
         Assert.Single(years);
@@ -154,9 +154,9 @@ public class Search
         var httpClient = new HttpClientTest(null!).WithDiscogsDto();
         var auth = new DiscogsAuth("KeyTest", "SecretTest");
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters("A", "T");
+        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
 
-        var resultsSummary = client.Search(apiParameters);
+        var resultsSummary = client.SearchByArtistAndTitle(apiParameters);
 
         var coverImages = resultsSummary.CoverImages.Where(x => x.Equals("url"));
         Assert.Single(coverImages);

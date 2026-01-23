@@ -12,9 +12,9 @@ public class QueryParameters
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters("A", "T");
+        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
 
-        client.Search(apiParameters);
+        client.SearchByArtistAndTitle(apiParameters);
 
         var queryFirstCharacter = httpClient.QueryParameters.First();
         Assert.Equal(firstCharacter, queryFirstCharacter);
@@ -27,11 +27,11 @@ public class QueryParameters
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters(
+        var apiParameters = new SearchByArtistAndTitleParameters(
             artist: artist,
             title: "T");
 
-        client.Search(apiParameters);
+        client.SearchByArtistAndTitle(apiParameters);
 
         var query = httpClient.QueryParameters;
         Assert.Contains($"artist={artist}", query);
@@ -44,11 +44,11 @@ public class QueryParameters
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters(
+        var apiParameters = new SearchByArtistAndTitleParameters(
             artist: "A",
             title: title);
 
-        client.Search(apiParameters);
+        client.SearchByArtistAndTitle(apiParameters);
 
         var query = httpClient.QueryParameters;
         Assert.Contains($"release_title={title}", query);
@@ -62,9 +62,9 @@ public class QueryParameters
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(key, secret);
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters("A", "T");
+        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
 
-        client.Search(apiParameters);
+        client.SearchByArtistAndTitle(apiParameters);
 
         var query = httpClient.QueryParameters;
         Assert.Contains($"key={key}", query);
@@ -78,9 +78,9 @@ public class QueryParameters
         var httpClient = new HttpClientTest(null!);
         var auth = new DiscogsAuth(string.Empty, string.Empty);
         var client = new DiscogsApiClient(httpClient, auth);
-        var apiParameters = new DiscogsApiParameters("A", "T");
+        var apiParameters = new SearchByArtistAndTitleParameters("A", "T");
 
-        client.Search(apiParameters);
+        client.SearchByArtistAndTitle(apiParameters);
 
         var query = httpClient.QueryParameters;
         Assert.Contains($"format={format}", query);

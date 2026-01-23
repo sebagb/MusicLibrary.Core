@@ -10,7 +10,8 @@ public class DiscogsApiClient
     private readonly DiscogsHttpClient client = client;
     private readonly DiscogsAuth auth = auth;
 
-    public DiscogsResultsSummary Search(DiscogsApiParameters apiParameters)
+    public DiscogsResultsSummary SearchByArtistAndTitle(
+        SearchByArtistAndTitleParameters apiParameters)
     {
         ArgumentNullException.ThrowIfNull(apiParameters);
         ArgumentException.ThrowIfNullOrWhiteSpace(apiParameters.Artist);
@@ -38,7 +39,8 @@ public class DiscogsApiClient
         return GetDiscogsResultsSummary(response.DiscogsDto.results!);
     }
 
-    private string GetQueryParameters(DiscogsApiParameters apiParameters)
+    private string GetQueryParameters(
+        SearchByArtistAndTitleParameters apiParameters)
     {
         var parameterCollection = HttpUtility.ParseQueryString(string.Empty);
         parameterCollection.Add("artist", apiParameters.Artist);
