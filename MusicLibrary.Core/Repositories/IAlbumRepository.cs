@@ -12,5 +12,5 @@ public interface IAlbumRepository
     public IEnumerable<string> GetAlbumGenres(int albumId);
     public IEnumerable<string> GetAlbumStyles(int albumId);
     public Album? GetById(int id);
-    public bool Update(Album album);
+    public Album Update(Album album);
 }

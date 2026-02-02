@@ -8,5 +8,8 @@ public interface IAlbumService
     public bool Delete(int id);
     public IEnumerable<Album> GetAll(GetAllAlbumOptions options);
     public Album? GetById(int id);
-    public bool Update(Album album);
+    public Album Update(Album album);
+    public Album? UpdateWithDiscogsResults(
+        int albumId,
+        DiscogsSelectedResults results);
 }

@@ -130,4 +130,9 @@ public class AlbumRepositoryMock : IAlbumRepository
 
         return this;
     }
+
+    Album IAlbumRepository.Update(Album album)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -93,13 +93,48 @@ public class AlbumService
         return album;
     }
 
-    public bool Update(Album album)
+    public Album Update(Album album)
     {
         var exists = database.AlbumExistsById(album.Id);
         if (!exists)
         {
-            return false;
+            return album;
         }
         return database.Update(album);
+    }
+
+    public Album? UpdateWithDiscogsResults(
+        int albumId,
+        DiscogsSelectedResults discogs)
+    {
+        var album = GetById(albumId);
+
+        if (album == null)
+        {
+            return null;
+        }
+
+        album.Countries =
+            [.. album.Countries.Union(discogs.SelectedCountries)];
+
+        album.CoverImage =
+            string.IsNullOrEmpty(discogs.SelectedCoverImage) ?
+                album.CoverImage
+                : discogs.SelectedCoverImage;
+
+        album.Genres =
+            [.. album.Genres.Union(discogs.SelectedGenres)];
+
+        album.ReleaseYear =
+            string.IsNullOrEmpty(discogs.SelectedReleaseYear) ?
+                album.ReleaseYear
+                : discogs.SelectedReleaseYear;
+
+        album.Styles =
+            [.. album.Styles.Union(discogs.SelectedStyles)];
+
+        var updatedAlbum = database.Update(album);
+
+        return updatedAlbum;
     }
 }

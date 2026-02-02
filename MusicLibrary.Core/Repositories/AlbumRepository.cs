@@ -85,7 +85,7 @@ public class AlbumRepository
         return album;
     }
 
-    public bool Update(Album album)
+    public Album Update(Album album)
     {
         var selectedCountries = album.Countries;
         PersistCountries(album, selectedCountries);
@@ -103,7 +103,9 @@ public class AlbumRepository
         PersistStyles(album, selectedStyles);
 
         context.Albums.Update(album);
-        return context.SaveChanges() > 0;
+        context.SaveChanges();
+
+        return album;
     }
 
     private void PersistCountries(Album album, List<string> selectedCountries)
