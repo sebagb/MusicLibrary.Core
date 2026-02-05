@@ -38,9 +38,12 @@ public class AlbumRepositoryMock : IAlbumRepository
         return albums.SingleOrDefault(x => x.Id == id);
     }
 
-    public bool Update(Album album)
+    public Album Update(Album album)
     {
-        throw new NotImplementedException();
+        var old = albums.Single(x => x.Id == album.Id);
+        albums.Remove(old);
+        albums.Add(album);
+        return album;
     }
 
     public IEnumerable<string> GetAlbumCountries(int albumId)
@@ -131,8 +134,5 @@ public class AlbumRepositoryMock : IAlbumRepository
         return this;
     }
 
-    Album IAlbumRepository.Update(Album album)
-    {
-        throw new NotImplementedException();
-    }
+
 }
