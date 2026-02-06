@@ -19,4 +19,24 @@ public class UpdateWithDiscogsResults
 
         Assert.Null(album);
     }
+
+    [Fact]
+    public void CountriesAreAddedOnlyIfNotInAlbumCountries()
+    {
+        var albumId = 1111;
+        var repository = new AlbumRepositoryMock()
+            .WithAlbum(albumId)
+            .WithCountries();
+        var service = new AlbumService(repository);
+        var results = new DiscogsSelectedResults()
+        {
+            SelectedCountries = ["Italy", "Uruguay", "Spain"]
+        };
+
+        var album = service.UpdateWithDiscogsResults(
+            albumId,
+            results);
+
+        Assert.Equal(4, album!.Countries.Count);
+    }
 }
