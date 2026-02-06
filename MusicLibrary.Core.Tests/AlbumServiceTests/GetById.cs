@@ -81,13 +81,14 @@ public class GetById
         var repo = new AlbumRepositoryMock()
             .WithAlbum(1111)
             .WithAlbum(2222)
-            .WithGenres();
+            .WithAlbumGenre(1111, 3232)
+            .WithAlbumGenre(1111, 4242);
         var service = new AlbumService(repo);
 
         var album = service.GetById(1111);
 
         var albumGenres = album!.Genres;
-        Assert.NotEmpty(albumGenres);
+        Assert.Equal(2, albumGenres.Count);
     }
 
     [Fact]

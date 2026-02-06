@@ -113,16 +113,17 @@ public class AlbumRepositoryMock : IAlbumRepository
         album.CoverImage = coverImage;
         return this;
     }
-    public AlbumRepositoryMock WithGenres()
+    public AlbumRepositoryMock WithAlbumGenre(
+        int albumId = 1111,
+        int genreId = 1111,
+        string genreName = "Letfield")
     {
-        genres = [
-            new Genre("Rock"),
-            new Genre("Pop"),
-            new Genre("Grunge")];
+        var genre = new Genre(genreName) { Id = genreId };
+        var album = albums.Single(x => x.Id == albumId);
 
-        albumGenres = [
-            new AlbumGenre(albums.First(), genres.First())];
+        var albumGenre = new AlbumGenre(album, genre);
 
+        albumGenres.Add(albumGenre);
         return this;
     }
 

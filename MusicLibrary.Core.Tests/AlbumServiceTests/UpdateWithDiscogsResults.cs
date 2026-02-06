@@ -89,4 +89,33 @@ public class UpdateWithDiscogsResults
 
         Assert.Equal(selectedCoverImage, album!.CoverImage);
     }
+
+    [Fact]
+    public void GenresAreAddedOnlyIfNotInAlbumGenres()
+    {
+        var albumId = 1111;
+        var repository = new AlbumRepositoryMock()
+            .WithAlbum(albumId)
+            .WithAlbumGenre(
+                albumId: 1111,
+                genreId: 2020,
+                genreName: "Rock"
+            )
+            .WithAlbumGenre(
+                albumId: 1111,
+                genreId: 3030,
+                genreName: "Blues"
+            );
+        var service = new AlbumService(repository);
+        var results = new DiscogsSelectedResults()
+        {
+            SelectedGenres = ["Rock", "Jazz", "Blues"]
+        };
+
+        var album = service.UpdateWithDiscogsResults(
+            albumId,
+            results);
+
+        Assert.Equal(3, album!.Genres.Count);
+    }
 }

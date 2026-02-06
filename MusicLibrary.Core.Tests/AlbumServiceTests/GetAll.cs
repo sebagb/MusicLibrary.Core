@@ -53,19 +53,20 @@ public class GetAll
     }
 
     [Fact]
-    public void GenrsAreLoadedForEveryAlbum()
+    public void GenresAreLoadedForEveryAlbum()
     {
         var repo = new AlbumRepositoryMock()
             .WithAlbum(1111)
             .WithAlbum(2222)
-            .WithGenres();
+            .WithAlbumGenre(1111, 3030)
+            .WithAlbumGenre(1111, 4040);
         var service = new AlbumService(repo);
 
         var collection = service.GetAll(new GetAllAlbumOptions());
 
         var firstAlbum = collection.First();
         var albumGenres = firstAlbum.Genres;
-        Assert.NotEmpty(albumGenres);
+        Assert.Equal(2, albumGenres.Count);
     }
 
     [Fact]
