@@ -26,14 +26,15 @@ public class GetAll
         var repo = new AlbumRepositoryMock()
             .WithAlbum(1111)
             .WithAlbum(2222)
-            .WithCountries();
+            .WithAlbumCountry(1111, 3030)
+            .WithAlbumCountry(1111, 4040);
         var service = new AlbumService(repo);
 
         var collection = service.GetAll(new GetAllAlbumOptions());
 
         var firstAlbum = collection.First();
         var albumCountries = firstAlbum.Countries;
-        Assert.NotEmpty(albumCountries);
+        Assert.Equal(2, albumCountries.Count);
     }
 
     [Fact]

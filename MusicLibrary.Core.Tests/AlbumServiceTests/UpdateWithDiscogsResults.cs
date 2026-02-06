@@ -26,7 +26,14 @@ public class UpdateWithDiscogsResults
         var albumId = 1111;
         var repository = new AlbumRepositoryMock()
             .WithAlbum(albumId)
-            .WithCountries();
+            .WithAlbumCountry(
+                albumId: 1111,
+                countryId: 2020,
+                countryName: "Uruguay")
+            .WithAlbumCountry(
+                albumId: 1111,
+                countryId: 2020,
+                countryName: "France");
         var service = new AlbumService(repository);
         var results = new DiscogsSelectedResults()
         {

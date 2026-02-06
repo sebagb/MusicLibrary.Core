@@ -6,7 +6,6 @@ namespace MusicLibrary.Core.Tests;
 public class AlbumRepositoryMock : IAlbumRepository
 {
     private ICollection<Album> albums = [];
-    private ICollection<Country> countries = [];
     private ICollection<AlbumCountry> albumCountries = [];
     private ICollection<Genre> genres = [];
     private ICollection<AlbumGenre> albumGenres = [];
@@ -92,17 +91,17 @@ public class AlbumRepositoryMock : IAlbumRepository
         return this;
     }
 
-    public AlbumRepositoryMock WithCountries()
+    public AlbumRepositoryMock WithAlbumCountry(
+        int albumId = 1111,
+        int countryId = 1111,
+        string countryName = "Uruguay")
     {
-        countries = [
-            new Country("Italy") { Id = 1111 },
-            new Country("Spain") { Id = 2222 },
-            new Country("France") { Id = 3333 }];
+        var country = new Country(countryName) { Id = countryId };
+        var album = albums.Single(x => x.Id == albumId);
 
-        albumCountries = [
-            new AlbumCountry(albums.ElementAt(0), countries.ElementAt(0)),
-            new AlbumCountry(albums.ElementAt(0), countries.ElementAt(2))];
+        var albumCountry = new AlbumCountry(album, country);
 
+        albumCountries.Add(albumCountry);
         return this;
     }
 
