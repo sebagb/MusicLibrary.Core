@@ -90,14 +90,15 @@ public class GetAll
         var repo = new AlbumRepositoryMock()
             .WithAlbum(1111)
             .WithAlbum(2222)
-            .WithStyles();
+            .WithAlbumStyle(1111, 4343)
+            .WithAlbumStyle(1111, 5353);
         var service = new AlbumService(repo);
 
         var collection = service.GetAll(new GetAllAlbumOptions());
 
         var firstAlbum = collection.First();
         var albumStyles = firstAlbum.Styles;
-        Assert.NotEmpty(albumStyles);
+        Assert.Equal(2, albumStyles.Count);
     }
 
     [Fact]

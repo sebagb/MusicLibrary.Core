@@ -127,20 +127,17 @@ public class AlbumRepositoryMock : IAlbumRepository
         return this;
     }
 
-    public AlbumRepositoryMock WithStyles()
+    public AlbumRepositoryMock WithAlbumStyle(
+        int albumId = 1111,
+        int styleId = 1111,
+        string styleName = "General")
     {
-        styles = [
-            new Style("Chill"),
-            new Style("Road"),
-            new Style("Beach")];
+        var style = new Style(styleName) { Id = styleId };
+        var album = albums.Single(x => x.Id == albumId);
 
-        albumStyles = [
-            new AlbumStyles(albums.First(), styles.ElementAt(0)),
-            new AlbumStyles(albums.First(), styles.ElementAt(1)),
-            new AlbumStyles(albums.First(), styles.ElementAt(2))];
+        var albumStyle = new AlbumStyles(album, style);
 
+        albumStyles.Add(albumStyle);
         return this;
     }
-
-
 }

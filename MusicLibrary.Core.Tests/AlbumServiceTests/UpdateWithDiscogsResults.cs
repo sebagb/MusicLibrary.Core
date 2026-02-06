@@ -118,4 +118,33 @@ public class UpdateWithDiscogsResults
 
         Assert.Equal(3, album!.Genres.Count);
     }
+
+    [Fact]
+    public void StylesAreAddedOnlyIfNotInAlbumStyles()
+    {
+        var albumId = 1111;
+        var repository = new AlbumRepositoryMock()
+            .WithAlbum(albumId)
+            .WithAlbumStyle(
+                albumId: 1111,
+                styleId: 2020,
+                styleName: "RockStyle"
+            )
+            .WithAlbumStyle(
+                albumId: 1111,
+                styleId: 3030,
+                styleName: "BluesStyle"
+            );
+        var service = new AlbumService(repository);
+        var results = new DiscogsSelectedResults()
+        {
+            SelectedStyles = ["RockStyle", "Jazz"]
+        };
+
+        var album = service.UpdateWithDiscogsResults(
+            albumId,
+            results);
+
+        Assert.Equal(3, album!.Styles.Count);
+    }
 }

@@ -111,12 +111,13 @@ public class GetById
         var repo = new AlbumRepositoryMock()
             .WithAlbum(1111)
             .WithAlbum(2222)
-            .WithStyles();
+            .WithAlbumStyle(1111, 5424)
+            .WithAlbumStyle(1111, 5252);
         var service = new AlbumService(repo);
 
         var album = service.GetById(1111);
 
         var albumStyles = album!.Styles;
-        Assert.NotEmpty(albumStyles);
+        Assert.Equal(2, albumStyles.Count);
     }
 }
