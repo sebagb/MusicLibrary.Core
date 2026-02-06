@@ -46,4 +46,47 @@ public class UpdateWithDiscogsResults
 
         Assert.Equal(4, album!.Countries.Count);
     }
+
+    [Fact]
+    public void AlbumCoverRemainsIfSelectedCoverIsEmpty()
+    {
+        var albumId = 1111;
+        var coverImage = "CoverImageTest";
+        var repository = new AlbumRepositoryMock()
+            .WithAlbum(albumId)
+            .WithAlbumCover(albumId, coverImage);
+        var service = new AlbumService(repository);
+        var results = new DiscogsSelectedResults()
+        {
+            SelectedCoverImage = string.Empty
+        };
+
+        var album = service.UpdateWithDiscogsResults(
+            albumId,
+            results);
+
+        Assert.Equal(coverImage, album!.CoverImage);
+    }
+
+    [Fact]
+    public void AlbumCoverIsReplacedIfSelectedCoverIsNotEmpty()
+    {
+        var albumId = 1111;
+        var coverImage = "CoverImageTest";
+        var selectedCoverImage = "SelectedCoverImage";
+        var repository = new AlbumRepositoryMock()
+            .WithAlbum(albumId)
+            .WithAlbumCover(albumId, coverImage);
+        var service = new AlbumService(repository);
+        var results = new DiscogsSelectedResults()
+        {
+            SelectedCoverImage = selectedCoverImage
+        };
+
+        var album = service.UpdateWithDiscogsResults(
+            albumId,
+            results);
+
+        Assert.Equal(selectedCoverImage, album!.CoverImage);
+    }
 }

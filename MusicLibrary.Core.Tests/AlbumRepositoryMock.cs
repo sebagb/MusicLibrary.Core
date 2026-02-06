@@ -105,6 +105,14 @@ public class AlbumRepositoryMock : IAlbumRepository
         return this;
     }
 
+    public AlbumRepositoryMock WithAlbumCover(
+        int albumId,
+        string coverImage)
+    {
+        var album = albums.Single(x => x.Id == albumId);
+        album.CoverImage = coverImage;
+        return this;
+    }
     public AlbumRepositoryMock WithGenres()
     {
         genres = [
