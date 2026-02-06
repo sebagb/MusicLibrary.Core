@@ -113,6 +113,7 @@ public class AlbumRepositoryMock : IAlbumRepository
         album.CoverImage = coverImage;
         return this;
     }
+
     public AlbumRepositoryMock WithAlbumGenre(
         int albumId = 1111,
         int genreId = 1111,
@@ -138,6 +139,15 @@ public class AlbumRepositoryMock : IAlbumRepository
         var albumStyle = new AlbumStyles(album, style);
 
         albumStyles.Add(albumStyle);
+        return this;
+    }
+
+    public AlbumRepositoryMock WithReleaseYear(
+        int albumId,
+        string releaseYear)
+    {
+        var album = albums.Single(x => x.Id == albumId);
+        album.ReleaseYear = releaseYear;
         return this;
     }
 }

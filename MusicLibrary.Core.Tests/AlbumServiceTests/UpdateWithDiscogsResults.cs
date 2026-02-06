@@ -120,6 +120,49 @@ public class UpdateWithDiscogsResults
     }
 
     [Fact]
+    public void ReleaseYearRemainsIfSelectedYearIsEmpty()
+    {
+        var albumId = 1111;
+        var releaseYear = "2000";
+        var repository = new AlbumRepositoryMock()
+            .WithAlbum(albumId)
+            .WithReleaseYear(albumId, releaseYear);
+        var service = new AlbumService(repository);
+        var results = new DiscogsSelectedResults()
+        {
+            SelectedReleaseYear = string.Empty
+        };
+
+        var album = service.UpdateWithDiscogsResults(
+            albumId,
+            results);
+
+        Assert.Equal(releaseYear, album!.ReleaseYear);
+    }
+
+    [Fact]
+    public void ReleaseYearIsReplacedIfSelectedYearIsNotEmpty()
+    {
+        var albumId = 1111;
+        var releaseYear = "2000";
+        var selectedReleaseYear = "1998";
+        var repository = new AlbumRepositoryMock()
+            .WithAlbum(albumId)
+            .WithReleaseYear(albumId, releaseYear);
+        var service = new AlbumService(repository);
+        var results = new DiscogsSelectedResults()
+        {
+            SelectedReleaseYear = selectedReleaseYear
+        };
+
+        var album = service.UpdateWithDiscogsResults(
+            albumId,
+            results);
+
+        Assert.Equal(selectedReleaseYear, album!.ReleaseYear);
+    }
+
+    [Fact]
     public void StylesAreAddedOnlyIfNotInAlbumStyles()
     {
         var albumId = 1111;
