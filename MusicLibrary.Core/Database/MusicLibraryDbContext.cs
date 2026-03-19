@@ -13,7 +13,7 @@ public class MusicLibraryDbContext
     public DbSet<Genre> Genres { get; set; }
     public DbSet<AlbumGenre> AlbumGenres { get; set; }
     public DbSet<Style> Styles { get; set; }
-    public DbSet<AlbumStyles> AlbumStyles { get; set; }
+    public DbSet<AlbumStyle> AlbumStyles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,7 +30,7 @@ public class MusicLibraryDbContext
             .HasIndex(a => new { a.AlbumId, a.CountryId })
             .IsUnique();
 
-        modelBuilder.Entity<AlbumStyles>()
+        modelBuilder.Entity<AlbumStyle>()
             .HasIndex(a => new { a.AlbumId, a.StyleId });
     }
 }

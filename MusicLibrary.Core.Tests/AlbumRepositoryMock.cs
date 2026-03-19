@@ -10,7 +10,7 @@ public class AlbumRepositoryMock : IAlbumRepository
     private ICollection<Genre> genres = [];
     private ICollection<AlbumGenre> albumGenres = [];
     private ICollection<Style> styles = [];
-    private ICollection<AlbumStyles> albumStyles = [];
+    private ICollection<AlbumStyle> albumStyles = [];
 
     public bool AlbumExistsById(int id)
     {
@@ -136,7 +136,7 @@ public class AlbumRepositoryMock : IAlbumRepository
         var style = new Style(styleName) { Id = styleId };
         var album = albums.Single(x => x.Id == albumId);
 
-        var albumStyle = new AlbumStyles(album, style);
+        var albumStyle = new AlbumStyle(album, style);
 
         albumStyles.Add(albumStyle);
         return this;

@@ -191,7 +191,7 @@ public class AlbumRepository
             selectedStyles.Contains(s.Name));
         foreach (var style in existingStyles)
         {
-            var albumStyle = new AlbumStyles(album, style);
+            var albumStyle = new AlbumStyle(album, style);
 
             var exists = context.AlbumStyles.Any(a =>
                 a.AlbumId == album.Id
@@ -208,7 +208,7 @@ public class AlbumRepository
         foreach (var styleName in unkownStyles)
         {
             var newStyle = new Style(styleName);
-            var albumStyle = new AlbumStyles(album, newStyle);
+            var albumStyle = new AlbumStyle(album, newStyle);
             context.Styles.Add(newStyle);
             context.AlbumStyles.Add(albumStyle);
         }
